@@ -10,7 +10,7 @@ let connection = mongoose.createConnection(process.env.MLAB_URI || 'mongodb://lo
 autoIncrement.initialize(connection)
 const Schema = mongoose.Schema
 app.use(cors())
-console.log(connection)
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
@@ -26,7 +26,6 @@ User_Schema.plugin(autoIncrement.plugin, {model: 'User_Schema', field: 'userId'}
 
 let User_model = connection.model('User', User_Schema)
 let Workout_model = connection.model('Workouts', Workout_Schema)
-
 
 app.use(express.static('public'))
 app.get('/', (req, res) => {
@@ -64,6 +63,7 @@ app.post('/api/exercise/new-user', function (req, res){
   let record = new User_model({user: username})
   try{
       let result = record.save();
+      console.log(result)
       res.json(result)
     }
     catch(err){
