@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-app.post('/api/exercise/new-user',  async (req, res) => {
+app.post('/api/exercise/new-user', async function (req, res) {
   let username = req.body.username
   let record = new User_model({user: username})
   try{
