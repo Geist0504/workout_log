@@ -20,7 +20,10 @@ let User_Schema = new Schema({
 })
 
 let Workout_Schema = new Schema({
-  user: {type:String, unique:true}
+  userId: String,
+  duration: String,
+  duration: Number,
+  date: String
 })
 
 User_Schema.plugin(autoIncrement.plugin, {model: 'User_Schema', field: 'userId'});
@@ -57,7 +60,6 @@ app.post('/api/exercise/new-user', async function (req, res) {
   let record = new User_model({user: username})
   try{
       let result = await record.save();
-      console.log(result)
       res.json(result)
     }
     catch(err){
@@ -68,7 +70,26 @@ app.post('/api/exercise/new-user', async function (req, res) {
     }
 })
 
-app.post('/api/exercise/log', function (req, res){})
+app.post('/api/exercise/add', function (req, res){
+  let userId = req.body.userId
+  let description = req.body.description
+  let duration = req.body.duration
+  let date = req.body.date
+  let record = new Workout_model({userId: userId,
+                                 description: description,
+                                 duration: duration,
+                                 date: date})
+  try{
+      let result = record.save();
+      res.json(result)
+    }
+    catch(err){
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).json({'Error': err.message});
+      }
+      else{res.status(500).send(err)};
+    }
+})
 
 app.get('/api/exercise/users', function (req, res){
   try{
