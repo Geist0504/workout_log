@@ -61,8 +61,10 @@ app.post('/api/exercise/new-user', async function (req, res) {
       res.json(result)
     }
     catch(err){
+      console.log(err)
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).send(new Error('Duplicate key', [err.message]));
+        console.log('done')
       }
       res.status(500).send(err);
     }
