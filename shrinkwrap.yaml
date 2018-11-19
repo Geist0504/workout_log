@@ -4,6 +4,7 @@ dependencies:
   express: 4.16.4
   mongodb: 2.2.36
   mongoose: 4.13.17
+  mongoose-auto-increment: 5.0.1
   shortid: 2.2.14
 packages:
   /accepts/1.3.5:
@@ -174,6 +175,10 @@ packages:
       node: '>= 0.10.0'
     resolution:
       integrity: sha512-j12Uuyb4FMrd/qQAm6uCHAkPtO8FDTRJZBDd5D2KOL2eLaz1yUNdUB/NOIyq0iU4q4cFarsUCrnFDPBcnksuOg==
+  /extend/3.0.2:
+    dev: false
+    resolution:
+      integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
   /finalhandler/1.1.1:
     dependencies:
       debug: 2.6.9
@@ -320,6 +325,14 @@ packages:
       node: '>=0.10.3'
     resolution:
       integrity: sha512-P2SBLQ8Z0PVx71ngoXwo12+FiSfbNfGOClAao03/bant5DgLNkOPAck5IaJcEk4gKlQhDEURzfR3xuBG1/B+IA==
+  /mongoose-auto-increment/5.0.1:
+    dependencies:
+      extend: 3.0.2
+    dev: false
+    peerDependencies:
+      mongoose: ^4.1.12
+    resolution:
+      integrity: sha1-gn4FHZzDcdq+i/8acEQx00HLed8=
   /mongoose/4.13.17:
     dependencies:
       async: 2.6.0
@@ -586,4 +599,5 @@ specifiers:
   express: ^4.14.0
   mongodb: ^2.2.14
   mongoose: ^4.7.2
+  mongoose-auto-increment: ^5.0.1
   shortid: ^2.2.6
