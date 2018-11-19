@@ -59,11 +59,11 @@ app.use((err, req, res, next) => {
 })
 
 app.post("/api/exercise/new-user", function (req, res){
-  let username = req.body.username;
+  let username = req.body.username
   let record = new User_model({user: username})
   try{
       let result = record.save();
-      res.
+      res.json(result)
     }
     catch(err){
       if (err.name === 'MongoError' && err.code === 11000) {
