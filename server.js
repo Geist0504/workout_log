@@ -6,9 +6,10 @@ const cors = require('cors')
 
 const mongoose = require('mongoose'),
       autoIncrement = require('mongoose-auto-increment');
-let connection = mongoose.createConnection(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
-autoIncrement.initialize(connection)
 const Schema = mongoose.Schema
+let connection = mongoose.createConnection(process.env.MLAB_URI)
+autoIncrement.initialize(connection)
+
 app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: false}))
@@ -35,7 +36,8 @@ app.get('/', (req, res) => {
 
 // Not found middleware
 app.use((req, res, next) => {
-  return next({status: 404, message: 'not found'})
+  res.json({status: 404, message: 'not found'})
+  //return next({status: 404, message: 'not found'})
 })
 
 // Error Handling middleware
