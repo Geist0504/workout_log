@@ -10,7 +10,7 @@ let connection = mongoose.createConnection(process.env.MLAB_URI || 'mongodb://lo
 autoIncrement.initialize(connection)
 const Schema = mongoose.Schema
 app.use(cors())
-
+console.log(connection)
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
@@ -58,7 +58,8 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-app.post("/api/exercise/new-user", function (req, res){
+app.post('/api/exercise/new-user', function (req, res){
+  console.log('posting')
   let username = req.body.username
   let record = new User_model({user: username})
   try{
@@ -73,9 +74,9 @@ app.post("/api/exercise/new-user", function (req, res){
     }
 })
 
-app.post("/api/exercise/log", function (req, res){})
+app.post('/api/exercise/log', function (req, res){})
 
-app.get("/api/exercise/users", function (req, res){
+app.get('/api/exercise/users', function (req, res){
   try{
     let entries = User_model.find({}, (err, users) => {
       res.json(users)
@@ -89,7 +90,7 @@ app.get("/api/exercise/users", function (req, res){
   }
 })
 
-app.get("/api/exercise/users/:log/:from?/:to?/:limit?", function (req, res){})
+app.get('/api/exercise/users/:log/:from?/:to?/:limit?', function (req, res){})
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
