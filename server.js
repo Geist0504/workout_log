@@ -52,11 +52,11 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-app.post('/api/exercise/new-user',  function (req, res){
+app.post('/api/exercise/new-user',  async (req, res) => {
   let username = req.body.username
   let record = new User_model({user: username})
   try{
-      let result = record.save();
+      let result = await record.save();
       console.log(result)
       res.json(result)
     }
