@@ -33,13 +33,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-
-// Not found middleware
-app.use((req, res, next) => {
-  res.json({status: 404, message: 'not found'})
-  //return next({status: 404, message: 'not found'})
-})
-
 // Error Handling middleware
 app.use((err, req, res, next) => {
   let errCode, errMessage
@@ -59,8 +52,7 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-app.post('/api/exercise/new-user', function (req, res){
-  console.log('posting')
+app.post('/api/exercise/new-user',  function (req, res){
   let username = req.body.username
   let record = new User_model({user: username})
   try{
