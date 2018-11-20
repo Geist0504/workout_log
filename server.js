@@ -24,7 +24,7 @@ let Workout_Schema = new Schema({
   userId: {type:String, unique:false},
   description: String,
   duration: Number,
-  date: String
+  date: Object
 })
 
 User_Schema.plugin(autoIncrement.plugin, {model: 'User_Schema', field: 'userId'});
@@ -76,13 +76,14 @@ app.post('/api/exercise/add', async function (req, res){
   let description = req.body.description
   let duration = req.body.duration
   let date = req.body.date
-  let record = new Workout_model({userId: userId,
-                                 description: description,
-                                 duration: duration,
-                                 date: date})
   let IsoTrue = moment(date, moment.ISO_8601, true).isValid()
+  console.log(IsoTrue)
   if(!IsoTrue){res.json({'Error': 'Inavilid Date'})}
   else{
+    let record = new Workout_model({userId: userId,
+                                 description: description,
+                                 duration: duration,
+                                 date: new Date(date)})
     try{
         let result = await record.save();
         res.json(result)
@@ -113,9 +114,9 @@ app.get('/api/exercise/users', function (req, res){
 
 app.get('/api/exercise/users/log/:user/:from?/:to?/:limit?', async function (req, res){
   let userId = req.params.user
-  let from = req.query.from || null
-  let to = req.query.to || null
-  let limit= Number(req.query.limit)
+  let from = req.query.from 
+  let to = req.query.to || new Date(3000-10-10)
+  let limit= Number(req.query.limit) || null
   console.log(userId, from, to, limit)
   let result = await Workout_model.find({ userId: userId, date: {$gt: from}, date: {$lt: to}}, null, {limit: limit});
   res.json(result)
