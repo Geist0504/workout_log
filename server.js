@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const moment = require('moment')
 
 const cors = require('cors')
 
@@ -79,17 +80,21 @@ app.post('/api/exercise/add', async function (req, res){
                                  description: description,
                                  duration: duration,
                                  date: date})
-  try{
-      let result = await record.save();
-      res.json(result)
-    }
-    catch(err){
-      console.log(err)
-      if (err.name === 'MongoError' && err.code === 11000) {
-        res.status(409).json({'Error': err.message});
+  let IsoTrue = moment(date, moment.ISO_8601, true).isValid()
+  if(!IsoTrue){res.json({'Error': 'Inavilid Date'})}
+  else{
+    try{
+        let result = await record.save();
+        res.json(result)
       }
-      else{res.status(500).send(err)};
-    }
+      catch(err){
+        console.log(err)
+        if (err.name === 'MongoError' && err.code === 11000) {
+          res.status(409).json({'Error': err.message});
+        }
+        else{res.status(500).send(err)};
+      }
+  }
 })
 
 app.get('/api/exercise/users', function (req, res){
@@ -106,7 +111,14 @@ app.get('/api/exercise/users', function (req, res){
   }
 })
 
-app.get('/api/exercise/users/:log/:from?/:to?/:limit?', function (req, res){})
+app.get('/api/exercise/users/log/:user/:from?/:to?/:limit?', function (req, res){
+  let userId = req.params.user
+  let from = req.params.from
+  let to = req.params.to
+  let limit= req.params.limit
+  
+  Workout_model.find({ name: 'john', age: { $gte: 18 }});
+})
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
