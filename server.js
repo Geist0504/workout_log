@@ -112,13 +112,12 @@ app.get('/api/exercise/users', function (req, res){
 })
 
 app.get('/api/exercise/users/log/:user/:from?/:to?/:limit?', async function (req, res){
-  console.log(req)
   let userId = req.params.user
-  let from = req.query.from
-  let to = req.query.to
-  let limit= req.query.limit
+  let from = req.query.from || null
+  let to = req.query.to || null
+  let limit= Number(req.query.limit)
   console.log(userId, from, to, limit)
-  let result = await Workout_model.find({ userId: userId}, null, {$limit: limit, $gt: from, $lt: to});
+  let result = await Workout_model.find({ userId: userId, date: {$gt: from}, date: {$lt: to}}, null, {limit: limit});
   res.json(result)
 })
 
