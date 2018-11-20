@@ -116,8 +116,9 @@ app.get('/api/exercise/users/log/:user/:from?/:to?/:limit?', function (req, res)
   let from = req.params.from
   let to = req.params.to
   let limit= req.params.limit
-  
-  Workout_model.find({ name: 'john', age: { $gte: 18 }});
+  console.log(userId, from, to, limit)
+  let result = Workout_model.find({ name: userId}, null, {$limit: limit, $gt: from, $lt: to});
+  res.json(result)
 })
 
 
