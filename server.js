@@ -20,8 +20,8 @@ let User_Schema = new Schema({
 })
 
 let Workout_Schema = new Schema({
-  userId: String,
-  duration: String,
+  userId: {type:String, unique:false},
+  description: String,
   duration: Number,
   date: String
 })
@@ -70,7 +70,7 @@ app.post('/api/exercise/new-user', async function (req, res) {
     }
 })
 
-app.post('/api/exercise/add', function (req, res){
+app.post('/api/exercise/add', async function (req, res){
   let userId = req.body.userId
   let description = req.body.description
   let duration = req.body.duration
@@ -80,10 +80,11 @@ app.post('/api/exercise/add', function (req, res){
                                  duration: duration,
                                  date: date})
   try{
-      let result = record.save();
+      let result = await record.save();
       res.json(result)
     }
     catch(err){
+      console.log(err)
       if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409).json({'Error': err.message});
       }
