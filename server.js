@@ -118,7 +118,7 @@ app.get('/api/exercise/users/log/:user/:from?/:to?/:limit?', async function (req
   let limit= Number(req.query.limit) || null
   console.log(userId, from, to, limit)
   let result = await Workout_model.find({ userId: userId, date: {$gt: from}, date: {$lt: to}}, '-_id description duration', {limit: limit});
-  res.json(result)
+  res.json({count: result.length, exercises: result})
 })
 
 
